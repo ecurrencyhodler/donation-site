@@ -4,7 +4,7 @@ import { useCheckout } from '@moneydevkit/nextjs'
 import './globals.css'
 
 export default function HomePage() {
-  const { navigate, isNavigating } = useCheckout()
+  const { navigate } = useCheckout()
 
   // Donation amounts in USD
   const DONATION_AMOUNTS = {
@@ -45,7 +45,6 @@ export default function HomePage() {
             <button 
               className="donation-btn" 
               onClick={() => handleDonation(DONATION_AMOUNTS.TEN)}
-              disabled={isNavigating}
             >
               <span className="amount">$10</span>
               <span className="currency">USD</span>
@@ -55,7 +54,6 @@ export default function HomePage() {
             <button 
               className="donation-btn" 
               onClick={() => handleDonation(DONATION_AMOUNTS.HUNDRED)}
-              disabled={isNavigating}
             >
               <span className="amount">$100</span>
               <span className="currency">USD</span>
@@ -65,7 +63,6 @@ export default function HomePage() {
             <button 
               className="donation-btn" 
               onClick={() => handleDonation(DONATION_AMOUNTS.THOUSAND)}
-              disabled={isNavigating}
             >
               <span className="amount">$1,000</span>
               <span className="currency">USD</span>

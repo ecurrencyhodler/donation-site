@@ -1,0 +1,11 @@
+{
+  "name": "donation-site",
+  "version": "1.0.0",
+  "description": "Donation landing page for ecurrencyhodler",
+  "scripts": {
+    "dev": "python3 -m http.server 8000"
+  },
+  "keywords": ["donation", "landing-page"],
+  "author": "ecurrencyhodler",
+  "license": "MIT"
+}

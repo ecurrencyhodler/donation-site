@@ -60,7 +60,6 @@ export default function HomePage() {
       description: 'Thank you for your generous donation',
       amount: amountUSD * 100, // Convert USD to cents for moneydevkit
       currency: 'USD',
-      successUrl: '/checkout/success',
       metadata: {
         type: 'donation',
         amount: amountUSD,

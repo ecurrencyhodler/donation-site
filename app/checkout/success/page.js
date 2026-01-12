@@ -1,9 +1,11 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { useCheckoutSuccess } from '@moneydevkit/nextjs'
 import './success.css'
 
 export default function SuccessPage() {
+  const router = useRouter()
   const { isCheckoutPaidLoading, isCheckoutPaid, metadata } = useCheckoutSuccess()
 
   if (isCheckoutPaidLoading || isCheckoutPaid === null) {
@@ -31,8 +33,13 @@ export default function SuccessPage() {
       <div className="success-content">
         <div className="success-icon">✓</div>
         <h1>Payment Confirmed!</h1>
-        <p>Thank you for your generous donation of ${metadata?.amount || 'N/A'} USD.</p>
-        <p className="success-message">Your support means the world to us!</p>
+        <p>Thank you for your generous donation of ${metadata?.amount || 'N/A'} USD. Your support means the world to us!</p>
+        <button 
+          onClick={() => router.push('/')}
+          className="continue-btn"
+        >
+          Continue
+        </button>
       </div>
     </div>
   )

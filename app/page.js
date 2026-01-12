@@ -73,7 +73,7 @@ export default function HomePage() {
   return (
     <div className="container">
       <header>
-        <h1 className="name">ecurrencyhodler</h1>
+        <h1 className="name">Human Rights Foundation</h1>
         <p className="tagline">Creating vibe coding education to support human rights advocates</p>
       </header>
       

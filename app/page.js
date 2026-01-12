@@ -1,16 +1,57 @@
 'use client'
 
+import { useState } from 'react'
 import { useCheckout } from '@moneydevkit/nextjs'
 import './globals.css'
 
 export default function HomePage() {
   const { navigate } = useCheckout()
+  const [amount, setAmount] = useState('')
+  const [error, setError] = useState('')
 
-  // Donation amounts in USD
-  const DONATION_AMOUNTS = {
-    TEN: 10,        // $10 USD
-    HUNDRED: 100,   // $100 USD
-    THOUSAND: 1000  // $1,000 USD
+  // Preset donation amounts in USD
+  const PRESET_AMOUNTS = [10, 50, 100]
+
+  const handlePresetClick = (presetAmount) => {
+    setAmount(presetAmount.toString())
+    setError('')
+  }
+
+  const handleAmountChange = (e) => {
+    const value = e.target.value
+    setAmount(value)
+    setError('')
+  }
+
+  const validateAmount = (amountValue) => {
+    if (!amountValue || amountValue.trim() === '') {
+      return 'Please enter an amount'
+    }
+    
+    const numValue = parseFloat(amountValue)
+    
+    if (isNaN(numValue)) {
+      return 'Please enter a valid number'
+    }
+    
+    if (numValue <= 0) {
+      return 'Amount must be greater than 0'
+    }
+    
+    return null
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    
+    const validationError = validateAmount(amount)
+    if (validationError) {
+      setError(validationError)
+      return
+    }
+
+    const amountUSD = parseFloat(amount)
+    handleDonation(amountUSD)
   }
 
   const handleDonation = (amountUSD) => {
@@ -32,42 +73,51 @@ export default function HomePage() {
     <div className="container">
       <header>
         <h1 className="name">ecurrencyhodler</h1>
-        <p className="tagline">Support the cause</p>
+        <p className="tagline">Creating vibe coding education to support human rights advocates</p>
       </header>
       
       <main>
         <div className="donation-section">
           <h2>Make a Donation</h2>
-          <p className="description">Choose an amount to donate</p>
           
-          <div className="button-group">
-            {/* $10 USD Donation Button */}
+          <form onSubmit={handleSubmit} className="donation-form">
+            <div className="input-group">
+              <div className="input-wrapper">
+                <span className="currency-symbol">$</span>
+                <input
+                  type="number"
+                  step="0.01"
+                  min="0.01"
+                  value={amount}
+                  onChange={handleAmountChange}
+                  placeholder=""
+                  className={`amount-input ${error ? 'error' : ''}`}
+                />
+              </div>
+              {error && <p className="error-message">{error}</p>}
+            </div>
+
+            <div className="preset-buttons">
+              {PRESET_AMOUNTS.map((presetAmount) => (
+                <button
+                  key={presetAmount}
+                  type="button"
+                  className="preset-btn"
+                  onClick={() => handlePresetClick(presetAmount)}
+                >
+                  ${presetAmount}
+                </button>
+              ))}
+            </div>
+
             <button 
-              className="donation-btn" 
-              onClick={() => handleDonation(DONATION_AMOUNTS.TEN)}
+              type="submit" 
+              className="submit-btn"
+              disabled={!amount || parseFloat(amount) <= 0}
             >
-              <span className="amount">$10</span>
-              <span className="currency">USD</span>
+              Continue to Checkout
             </button>
-            
-            {/* $100 USD Donation Button */}
-            <button 
-              className="donation-btn" 
-              onClick={() => handleDonation(DONATION_AMOUNTS.HUNDRED)}
-            >
-              <span className="amount">$100</span>
-              <span className="currency">USD</span>
-            </button>
-            
-            {/* $1,000 USD Donation Button */}
-            <button 
-              className="donation-btn" 
-              onClick={() => handleDonation(DONATION_AMOUNTS.THOUSAND)}
-            >
-              <span className="amount">$1,000</span>
-              <span className="currency">USD</span>
-            </button>
-          </div>
+          </form>
         </div>
       </main>
     </div>

@@ -24,7 +24,7 @@ export default function CheckoutPage({ params }) {
             const text = element.textContent || element.innerText;
             if (text && text.includes('Thank you for your business')) {
               const amount = metadata.amount;
-              element.textContent = `Thank you for your generous donation of $${amount.toLocaleString()} USD. Your support means the world to us!`;
+              element.textContent = `Thank you for your generous donation of $${amount.toLocaleString()} USD to Human Rights Foundation. Your support means the world to us!`;
             }
           });
         }

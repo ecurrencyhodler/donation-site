@@ -57,14 +57,15 @@ export default function HomePage() {
   const handleDonation = (amountUSD) => {
     navigate({
       title: `Donation of $${amountUSD.toLocaleString()} USD`,
-      description: 'Thank you for your generous donation',
+      description: 'Thank you for your generous donation to Human Rights Foundation',
       amount: amountUSD * 100, // Convert USD to cents for moneydevkit
       currency: 'USD',
       successUrl: '/checkout/success',
       metadata: {
         type: 'donation',
         amount: amountUSD,
-        donor: 'supporter'
+        donor: 'supporter',
+        recipient: 'Human Rights Foundation'
       }
     })
   }

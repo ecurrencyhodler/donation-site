@@ -2,11 +2,19 @@
 
 import { useRouter } from 'next/navigation'
 import { useCheckoutSuccess } from '@moneydevkit/nextjs'
+import { useEffect } from 'react'
 import './success.css'
 
 export default function SuccessPage() {
   const router = useRouter()
   const { isCheckoutPaidLoading, isCheckoutPaid, metadata } = useCheckoutSuccess()
+
+  useEffect(() => {
+    if (isCheckoutPaid) {
+      // Redirect to home page after payment is confirmed
+      router.push('/')
+    }
+  }, [isCheckoutPaid, router])
 
   if (isCheckoutPaidLoading || isCheckoutPaid === null) {
     return (
@@ -28,19 +36,6 @@ export default function SuccessPage() {
     )
   }
 
-  return (
-    <div className="success-container">
-      <div className="success-content">
-        <div className="success-icon">✓</div>
-        <h1>Payment Confirmed!</h1>
-        <p>Thank you for your generous donation of ${metadata?.amount || 'N/A'} USD. Your support means the world to us!</p>
-        <button 
-          onClick={() => router.push('/')}
-          className="continue-btn"
-        >
-          Continue
-        </button>
-      </div>
-    </div>
-  )
+  // This return should not be reached due to the redirect, but kept as fallback
+  return null
 }
